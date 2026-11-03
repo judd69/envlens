@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EnvLens report</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f172a;color:#f1f5f9;margin:0;padding:24px}h1{font-size:28px;margin:0 0 4px} .sub{color:#94a3b8;margin:0 0 20px}.score{font-size:44px;font-weight:800;color:#6366f1}.finding{border:1px solid #334155;border-radius:10px;padding:12px 14px;margin:8px 0;cursor:pointer;background:#1e293b}.finding.active{outline:2px solid #6366f1}.critical{border-left:6px solid #ef4444}.warning{border-left:6px solid #f59e0b}.info{border-left:6px solid #38bdf8}button{margin:4px;padding:6px 12px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#f1f5f9;cursor:pointer}button.active{background:#6366f1}.src{position:relative;background:#020617;border:1px solid #334155;border-radius:10px;padding:12px;font-family:ui-monospace,Menlo,monospace;font-size:13px;overflow:auto}.srcline{position:relative;z-index:1;padding:2px 6px;white-space:pre}#highlight{position:absolute;left:0;right:0;height:22px;background:rgba(99,102,241,.25);border-radius:6px;transition:top .35s cubic-bezier(.34,1.3,.5,1),height .35s cubic-bezier(.34,1.3,.5,1);z-index:0}</style>
+</head>
+<body>
+<h1>EnvLens report</h1>
+<p class="sub">bad.env</p>
+<div class="score">0/100</div>
+<p>Grade F &middot; Verdict FAIL &middot; 19 findings (critical 5, warning 13, info 1)</p>
+<div><button data-filter="all" class="active">All</button><button data-filter="critical">Critical</button><button data-filter="warning">Warning</button><button data-filter="info">Info</button></div>
+<div id="findings">
+<div class="finding critical" data-line="2" data-sev="critical"><strong>ENV01</strong> CRITICAL &middot; line 2 &middot; AWS_ACCESS_KEY_ID<br>Value matches a real secret pattern (e.g. cloud key, API token).<br><em>Fix: Rotate this credential, remove it from the file, and load it from a secrets manager.</em></div>
+<div class="finding critical" data-line="3" data-sev="critical"><strong>ENV01</strong> CRITICAL &middot; line 3 &middot; STRIPE_SECRET_KEY<br>Value matches a real secret pattern (e.g. cloud key, API token).<br><em>Fix: Rotate this credential, remove it from the file, and load it from a secrets manager.</em></div>
+<div class="finding critical" data-line="4" data-sev="critical"><strong>ENV01</strong> CRITICAL &middot; line 4 &middot; GITHUB_TOKEN<br>Value matches a real secret pattern (e.g. cloud key, API token).<br><em>Fix: Rotate this credential, remove it from the file, and load it from a secrets manager.</em></div>
+<div class="finding critical" data-line="5" data-sev="critical"><strong>ENV02</strong> CRITICAL &middot; line 5 &middot; DATABASE_URL<br>Credentials embedded in a URL value for 'DATABASE_URL'.<br><em>Fix: Split the URL into host/port/user/password parts, or use a secrets manager.</em></div>
+<div class="finding warning" data-line="6" data-sev="warning"><strong>ENV07</strong> WARNING &middot; line 6 &middot; DEBUG<br>DEBUG is enabled.<br><em>Fix: Set DEBUG=false (or remove it) before shipping.</em></div>
+<div class="finding critical" data-line="7" data-sev="critical"><strong>ENV08</strong> CRITICAL &middot; line 7 &middot; NODE_ENV<br>NODE_ENV=production combined with DEBUG enabled or a placeholder/weak secret.<br><em>Fix: Disable DEBUG and replace placeholder/weak secrets before a production deploy.</em></div>
+<div class="finding warning" data-line="8" data-sev="warning"><strong>ENV03</strong> WARNING &middot; line 8 &middot; APP_NAME<br>Placeholder value for 'APP_NAME'.<br><em>Fix: Replace it with a real value (in a safe store) or remove the key.</em></div>
+<div class="finding warning" data-line="9" data-sev="warning"><strong>ENV04</strong> WARNING &middot; line 9 &middot; EMPTY_VALUE<br>Empty value for 'EMPTY_VALUE'.<br><em>Fix: Set a value or remove the key if it is unused.</em></div>
+<div class="finding warning" data-line="10" data-sev="warning"><strong>ENV09</strong> WARNING &middot; line 10 &middot; WEAK_SECRET<br>Short secret for 'WEAK_SECRET' (under 16 characters).<br><em>Fix: Use a long randomly generated secret (32+ characters).</em></div>
+<div class="finding warning" data-line="11" data-sev="warning"><strong>ENV10</strong> WARNING &middot; line 11 &middot; BACKUP_API_KEY<br>Secret value reused across multiple secret keys.<br><em>Fix: Give each key its own unique secret.</em></div>
+<div class="finding warning" data-line="12" data-sev="warning"><strong>ENV10</strong> WARNING &middot; line 12 &middot; SECONDARY_API_KEY<br>Secret value reused across multiple secret keys.<br><em>Fix: Give each key its own unique secret.</em></div>
+<div class="finding warning" data-line="14" data-sev="warning"><strong>ENV05</strong> WARNING &middot; line 14 &middot; DUPLICATE_KEY<br>Duplicate key 'DUPLICATE_KEY': later definition wins.<br><em>Fix: Remove the duplicate definition and keep one value.</em></div>
+<div class="finding warning" data-line="15" data-sev="warning"><strong>ENV06</strong> WARNING &middot; line 15 &middot; lowercase_key<br>Invalid key name 'lowercase_key': use UPPER_SNAKE_CASE.<br><em>Fix: Rename the key to UPPER_SNAKE_CASE (letters, digits, underscores).</em></div>
+<div class="finding warning" data-line="16" data-sev="warning"><strong>ENV06</strong> WARNING &middot; line 16 &middot; bad-key<br>Invalid key name 'bad-key': use UPPER_SNAKE_CASE.<br><em>Fix: Rename the key to UPPER_SNAKE_CASE (letters, digits, underscores).</em></div>
+<div class="finding warning" data-line="17" data-sev="warning"><strong>ENV13</strong> WARNING &middot; line 17 &middot; PORT<br>PORT value for 'PORT' is not a valid port (1-65535).<br><em>Fix: Set it to a number between 1 and 65535.</em></div>
+<div class="finding warning" data-line="18" data-sev="warning"><strong>ENV14</strong> WARNING &middot; line 18 &middot; SECRET_FLAG<br>Secret-named key 'SECRET_FLAG' holds a bare boolean/number, not a secret.<br><em>Fix: Rename the key if it is a flag, or set a real secret value.</em></div>
+<div class="finding warning" data-line="19" data-sev="warning"><strong>ENV12</strong> WARNING &middot; line 19 &middot; UNQUOTED<br>Unquoted value for 'UNQUOTED' contains spaces.<br><em>Fix: Quote the value, or remove the spaces.</em></div>
+<div class="finding info" data-line="20" data-sev="info"><strong>ENV15</strong> INFO &middot; line 20 &middot; TRAILING_SPACES<br>Trailing whitespace on the line for 'TRAILING_SPACES'.<br><em>Fix: Trim trailing spaces/tabs from the line.</em></div>
+<div class="finding warning" data-line="21" data-sev="warning"><strong>ENV17</strong> WARNING &middot; line 21<br>Malformed line: unbalanced double quote.<br><em>Fix: Fix the quoting or the key=value shape on this line.</em></div>
+</div>
+<h2>Source preview (secret values masked)</h2>
+<div class="src" id="preview"><div id="highlight"></div>
+<div class="srcline" data-line="2">AWS_ACCESS_KEY_ID=••••••••</div>
+<div class="srcline" data-line="3">STRIPE_SECRET_KEY=••••••••</div>
+<div class="srcline" data-line="4">GITHUB_TOKEN=••••••••</div>
+<div class="srcline" data-line="5">DATABASE_URL=postgres://••••••••@localhost:5432/mydb</div>
+<div class="srcline" data-line="6">DEBUG=true</div>
+<div class="srcline" data-line="7">NODE_ENV=production</div>
+<div class="srcline" data-line="8">APP_NAME=changeme</div>
+<div class="srcline" data-line="9">EMPTY_VALUE=</div>
+<div class="srcline" data-line="10">WEAK_SECRET=••••••••</div>
+<div class="srcline" data-line="11">BACKUP_API_KEY=••••••••</div>
+<div class="srcline" data-line="12">SECONDARY_API_KEY=••••••••</div>
+<div class="srcline" data-line="13">DUPLICATE_KEY=first</div>
+<div class="srcline" data-line="14">DUPLICATE_KEY=second</div>
+<div class="srcline" data-line="15">lowercase_key=oops</div>
+<div class="srcline" data-line="16">bad-key=value</div>
+<div class="srcline" data-line="17">PORT=notaport</div>
+<div class="srcline" data-line="18">SECRET_FLAG=••••••••</div>
+<div class="srcline" data-line="19">UNQUOTED=hello world</div>
+<div class="srcline" data-line="20">TRAILING_SPACES=value</div>
+</div>
+<script>
+const preview=document.getElementById('preview');const hl=document.getElementById('highlight');function moveTo(line){const el=preview.querySelector('.srcline[data-line="'+line+'"]');if(!el)return;hl.style.top=el.offsetTop+'px';hl.style.height=el.offsetHeight+'px';el.scrollIntoView({block:'nearest'});}document.querySelectorAll('.finding').forEach(function(f){f.addEventListener('click',function(){document.querySelectorAll('.finding').forEach(function(x){x.classList.remove('active')});f.classList.add('active');moveTo(f.dataset.line);});});document.querySelectorAll('button[data-filter]').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('button[data-filter]').forEach(function(x){x.classList.remove('active')});b.classList.add('active');const want=b.dataset.filter;document.querySelectorAll('.finding').forEach(function(f){f.style.display=(want==='all'||f.dataset.sev===want)?'':'none';});});});moveTo(document.querySelector('.finding')?document.querySelector('.finding').dataset.line:1);</script>
+</body>
+</html>
